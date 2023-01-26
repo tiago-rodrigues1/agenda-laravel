@@ -18,7 +18,8 @@
                         </div>
                         <div class="card-body">
                             <div id="login" class="tab">
-                                <form action="#" method="post">
+                                <form action="/usuario/login" method="post">
+                                    {{ csrf_field() }}
                                     <div class="mb-3">
                                         <label for="nome" class="form-label">Nome</label>
                                         <input type="text" class="form-control" name="nome" id="nome">
