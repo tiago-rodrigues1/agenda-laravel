@@ -13,7 +13,7 @@
             <a class="navbar-brand" href="#">Agenda v1.0</a>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <span class="nav-link">Olá Fulano, <a href="#">Sair</a></span>
+                    <span class="nav-link">Olá {{ session()->get('usuario')->nome }}, <a href="#">Sair</a></span>
                 </li>
             </ul>
         </div>
