@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
 class Usuario extends Model
 {
@@ -27,15 +28,12 @@ class Usuario extends Model
      * 
      * @return Usuario
      */
-    public static function criarConta($nome, $endereco, $senha,
-            $repetirSenha)
-    {
-        if ($senha == $repetirSenha)
-        {
+    public static function criarConta($nome, $endereco, $senha, $repetirSenha) {
+        if ($senha == $repetirSenha) {
             $u = new Usuario([
                 'nome' => $nome,
                 'endereco' => $endereco,
-                'senha' => $senha
+                'senha' => Hash::make($senha)
             ]);
             $u->save();
             return $u;
@@ -43,35 +41,36 @@ class Usuario extends Model
         return null;
     }
 
-    public static function logar($nome, $senha)
-    {
-        // ...
+    public static function logar($nome, $senha) {
+        $u = Usuario::where('nome', $nome)->first();
+
+        if ($u != null && Hash::check($senha, $u->senha)) {
+            session()->put('usuario', $u);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public function excluirConta()
-    {
+    public function excluirConta() {
         $this->contatos()->detach();
         $this->delete();
     }
 
-    public function deslogar()
-    {
-        // ...
+    public function deslogar() {
+        session()->forget('usuario');
     }
 
-    public function adicionarContato($c)
-    {
+    public function adicionarContato($c) {
         $c->save();
         $this->contatos()->attach($c->id);
     }
 
-    public function listarContatos()
-    {
+    public function listarContatos() {
         return $this->contatos()->orderBy('nome')->get();
     }
 
-    public function buscar($termo)
-    {
+    public function buscar($termo) {
         return $this->contatos()->where('nome', 'like', "%$termo%")->get();
     }
 }
