@@ -16,3 +16,4 @@ use App\Http\Controllers\LoginController;
 
 Route::get('/', [LoginController::class, 'login']);
 Route::post('/usuario/cadastrar', [LoginController::class, 'cadastrar']);
+Route::post('/usuario/login', [LoginController::class, 'logar']);
