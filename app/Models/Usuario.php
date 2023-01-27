@@ -57,7 +57,7 @@ class Usuario extends Model
         $this->delete();
     }
 
-    public function deslogar() {
+    public static function deslogar() {
         session()->forget('usuario');
     }
 
