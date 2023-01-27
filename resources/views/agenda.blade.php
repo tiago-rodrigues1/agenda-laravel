@@ -13,7 +13,7 @@
             <a class="navbar-brand" href="#">Agenda v1.0</a>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <span class="nav-link">Olá {{ session()->get('usuario')->nome }}, <a href="#">Sair</a></span>
+                    <span class="nav-link">Olá {{ session()->get('usuario')->nome }}, <a href="/usuario/logout">Sair</a></span>
                 </li>
             </ul>
         </div>
@@ -25,7 +25,8 @@
                 Contato
             </div>
             <div class="card-body">
-                <form action="#" method="post">
+                <form action="/contato/cadastrar" method="post">
+                    {{ csrf_field() }}
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome</label>
                         <input type="text" class="form-control" name="nome" id="nome">
@@ -52,9 +53,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td colspan="4" style="text-align:center">Não há contatinhos na sua agenda</td>
-                </tr>
+                @forelse($contatos as $contato)
+                    <tr>
+                        <td>{{ $contato->id }}</td>
+                        <td>{{ $contato->nome }}</td>
+                        <td>{{ $contato->telefone }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" style="text-align:center">Não há contatinhos na sua agenda</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
